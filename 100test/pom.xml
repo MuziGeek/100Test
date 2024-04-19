@@ -10,6 +10,9 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>part1</module>
+        <module>part2</module>
+        <module>part3</module>
+        <module>part4</module>
     </modules>
 
 
