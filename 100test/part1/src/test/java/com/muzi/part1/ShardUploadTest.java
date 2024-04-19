@@ -1,5 +1,6 @@
 package com.muzi.part1;
 
+import cn.hutool.core.lang.Console;
 import cn.hutool.crypto.SecureUtil;
 import com.muzi.part1.comm.Result;
 import com.muzi.part1.dto.ShardUploadCompleteRequest;
@@ -20,6 +21,9 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
 import java.io.RandomAccessFile;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Slf4j
 public class ShardUploadTest {
@@ -46,14 +50,33 @@ public class ShardUploadTest {
         for (int partOrder = 1; partOrder <= partNum; partOrder++) {
             this.shardUploadPart(shardUploadId, partOrder);
         }*/
-       //2 多线程上传分片
-        for (int i = 1; i <partNum ; i++) {
+        //2 多线程上传分片
+        /*for (int i = 1; i <partNum ; i++) {
             MyRunnable myRunnable = new MyRunnable();
             myRunnable.setPartOrder(i);
             myRunnable.setShardUploadId(shardUploadId);
             Thread thread = new Thread(myRunnable);
             thread.start();
+        }*/
+        ExecutorService executorService = Executors.newFixedThreadPool(partNum);
+        CountDownLatch countDownLatch = new CountDownLatch(partNum);
+        for (int i = 1; i <=partNum ; i++) {
+            int partorder =i;
+            executorService.execute(() -> {
+                try {
+                    ShardUploadTest shardUploadTest = new ShardUploadTest();
+                    shardUploadTest.shardUploadPart(shardUploadId,partorder);
+
+                } catch (Exception e){
+                    log.info("分片上传失败{}", e);
+
+                }finally {
+                    countDownLatch.countDown();
+                }
+            });
         }
+        countDownLatch.await();
+        executorService.shutdown();
 
         //3、合并分片，完成上传
         this.shardUploadComplete(shardUploadId);
@@ -143,7 +166,8 @@ public class ShardUploadTest {
             IOUtils.closeQuietly(randomAccessFile);
         }
     }
-    class MyRunnable implements Runnable {
+
+   /* class MyRunnable implements Runnable {
 
         private int partOrder;
 
@@ -164,10 +188,24 @@ public class ShardUploadTest {
                     e.printStackTrace();
                 }
         }
-    }
+    }*/
 
     public String getRequestUrl(String path) {
         return String.format("http://localhost:8080/%s", path);
+    }
+
+    public static void main(String[] args) {
+
+
+        //2 多线程上传分片
+        for (int i = 1; i <10 ; i++) {
+            Thread thread = new Thread(()->{
+                Console.log(Thread.currentThread().getName());},"t"+i);
+            thread.start();
+        }
+
+
+
     }
 
 
