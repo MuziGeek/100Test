@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.muzi.part4.mapper.GoodsMapper">
+
+    <!-- 方案1：使用 num - #{num} >=0 解决秒杀问题 -->
+    <update id="placeOrder1">
+        update t_goods set num = num - ${num} where goods_id = #{goodsId} and num - #{num} >= 0
+    </update>
+
+    <!-- 方案2：使用乐观锁解决秒杀问题，重点在于条件中的 version = #{exceptVesion}，以及version是单调递增的（version = version + 1）  -->
+    <update id="placeOrder2">
+        update t_goods set num = num - ${num}, version = version + 1 where goods_id = #{goodsId} and version = #{expectVersion}
+    </update>
+
+    <!-- 方案3，sql如下，看起来可能有问题，我们会借助外力让他不会有问题，不会超卖 -->
+    <update id="placeOrder3">
+        update t_goods set num = num - ${num} where goods_id = #{goodsId}
+    </update>
+</mapper>
