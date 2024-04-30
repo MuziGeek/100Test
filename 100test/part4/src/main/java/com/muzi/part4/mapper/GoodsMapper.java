@@ -34,4 +34,5 @@ import org.apache.ibatis.annotations.Param;
      * @return
      */
     int placeOrder3(@Param("goodsId") String goodsId, @Param("num") int num);
+
 }

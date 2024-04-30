@@ -1,0 +1,10 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: part5
+
+logging:
+  level:
+    com:
+      muzi: debug

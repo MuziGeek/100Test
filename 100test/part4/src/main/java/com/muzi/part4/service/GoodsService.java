@@ -31,4 +31,11 @@ public interface GoodsService extends IService<GoodsPO> {
      * @throws InterruptedException
      */
     void placeOrder4() throws InterruptedException;
+    /**
+     * 4、第4种方式解决超卖，事务加锁
+     *
+     * @throws InterruptedException
+     */
+    void placeOrder5() throws InterruptedException;
+
 }

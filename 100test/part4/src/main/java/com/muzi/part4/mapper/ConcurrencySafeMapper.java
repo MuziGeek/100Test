@@ -2,6 +2,7 @@ package com.muzi.part4.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.muzi.part4.po.ConcurrencySafePO;
 
 
 public interface ConcurrencySafeMapper extends BaseMapper<ConcurrencySafePO> {

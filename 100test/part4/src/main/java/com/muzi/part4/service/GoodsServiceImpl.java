@@ -1,16 +1,23 @@
 package com.muzi.part4.service;
 
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.muzi.part4.concurrencysafe.ConcurrencyFailException;
+import com.muzi.part4.concurrencysafe.DbConcurrencySafe;
 import com.muzi.part4.mapper.GoodsMapper;
+import com.muzi.part4.po.GoodsPO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Function;
 
 @Service
@@ -139,6 +146,23 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, GoodsPO> implemen
         //模拟100人秒杀
         this.concurrentPlaceOrderMock("方案4", reduceStock);
     }
+    /**
+     * 方案5 事务加锁
+     *
+     */
+    @Transactional
+    @Override
+    public void placeOrder5() throws InterruptedException {
+        //扣减库存的方法，返回值为1表示扣减库存成功，0表示失败
+        Function<String, Integer> reduceStock = (String goodsId) -> {
+            int update = goodsMapper.placeOrder1(goodsId, 1);
+            return update;
+        };
+        //模拟100人秒杀
+        this.concurrentPlaceOrderMock("方案1", reduceStock);
+
+    }
+
 
     /**
      * 模拟100人秒杀请求
@@ -212,5 +236,11 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, GoodsPO> implemen
         this.save(goodsPO);
 
         return goodsPO;
+    }
+
+    public static void main(String[] args) {
+        String str1 =new StringBuilder("py").append("thon").toString();
+        System.out.println(str1.intern()==str1);
+
     }
 }
