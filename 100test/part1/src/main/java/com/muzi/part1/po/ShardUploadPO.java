@@ -3,11 +3,7 @@ package com.muzi.part1.po;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-/**
- * <b>description</b>： Java高并发、微服务、性能优化实战案例100讲，视频号：程序员路人 <br>
- * <b>time</b>：2024/3/26 21:32 <br>
- * <b>author</b>：ready likun_557@163.com
- */
+
 @Data
 @TableName("t_shard_upload")
 public class ShardUploadPO {

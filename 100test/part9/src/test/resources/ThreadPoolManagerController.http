@@ -1,0 +1,23 @@
+### 测试扩容
+POST http://localhost:8080/threadPoolManager/threadPoolChange
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "emailThreadPool",
+  "corePoolSize": 50,
+  "maxPoolSize": 100,
+  "queueCapacity": 2000
+}
+
+### 测试缩容
+POST http://localhost:8080/threadPoolManager/threadPoolChange
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "emailThreadPool",
+  "corePoolSize": 5,
+  "maxPoolSize": 10,
+  "queueCapacity": 500
+}

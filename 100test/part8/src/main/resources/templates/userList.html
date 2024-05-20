@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>用户列表</title>
+    <style>
+        * {
+            font-size: 12px;
+            padding: 0px;
+            margin: 0px;
+        }
+
+        .export {
+            display: flex;
+            justify-content: center;
+        }
+
+        .title{
+            font-weight: bold;
+            font-size: 20px;
+            color: red
+        }
+
+        th,td {
+            padding: 5px 30px;
+        }
+    </style>
+    <script type="text/javascript">
+        function download(data, url) {
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", url);
+            xhr.responseType = 'blob';
+            xhr.setRequestHeader('Content-Type','application/json;charset=utf-8');
+            xhr.onload = function (){
+                if(this.status==200){
+                    let blob = this.response;
+                    if(blob && blob.size > 0){
+                        let fileName = getFileNameFromResponse(xhr.getResponseHeader("content-disposition"));
+                        // 创建一个临时链接并模拟点击进行下载
+                        let a = document.createElement('a');
+                        a.href = window.URL.createObjectURL(blob);
+                        a.download = fileName;
+                        a.click();
+                    } else {
+                        console.error("下载失败");
+                    }
+                }
+            }
+            xhr.send(JSON.stringify(data));
+        }
+
+        // 根据响应头获取文件名
+        function getFileNameFromResponse(contentDisposition) {
+            let matchResult = /attachment;filename=(.*)/.exec(contentDisposition);
+            if (matchResult != null && matchResult[1]) {
+                return decodeURIComponent(matchResult[1].replace(/['"]/g, ""));
+            }
+            return "download";
+        }
+
+        function exportExcel1(event) {
+            event.preventDefault();
+            let exportRequest = {
+                excelName: "导出用户信息" + Date.now(),
+                sheetName: "导出用户信息",
+                fieldList: [],
+            };
+            let exportColList = document.querySelector("#form1").querySelectorAll(".exportCol");
+            exportColList.forEach(item => {
+                if (item.checked) {
+                    let exportField = {
+                        fieldName: item.dataset.fieldName,
+                        fieldDesc: item.dataset.fieldDesc
+                    };
+                    exportRequest.fieldList.push(exportField)
+                }
+            });
+            download(exportRequest, "http://localhost:8080/userExport");
+            requestExportExcel(exportRequest);
+        }
+
+        function exportExcel2(event) {
+            event.preventDefault();
+            let exportRequest = {
+                excelName: "导出用户信息" + Date.now(),
+                sheetName: "导出用户信息",
+                fieldList: [],
+                userIdList: []
+            };
+            let userIdEleList = document.querySelectorAll(".userId");
+            userIdEleList.forEach(item=>{
+                if (item.checked) {
+                    exportRequest.userIdList.push(item.dataset.userId);
+                }
+            });
+
+            let exportColList = document.querySelector("#form2").querySelectorAll(".exportCol");
+            exportColList.forEach(item => {
+                if (item.checked) {
+                    let exportField = {
+                        fieldName: item.dataset.fieldName,
+                        fieldDesc: item.dataset.fieldDesc
+                    };
+                    exportRequest.fieldList.push(exportField)
+                }
+            });
+            download(exportRequest, "http://localhost:8080/userExport");
+        }
+
+    </script>
+</head>
+<body>
+    <h1 style="color: white; font-weight: bold; text-align: center; background: red; font-size: 25px; line-height: 40px">通用的Excel导出工具实战，导出的列可以动态指定（如需要导出哪些列、列的顺序都可以自定义、列的名称）</h1>
+    <br><br>
+    <div class="export">
+        <form id="form1">
+            <table border="1" cellspacing="0" cellpadding="0">
+                <caption>
+                    <span class="title">案例1：请先勾选需要导出的列，然后点击</span>
+                    <button class="exportBtn" onclick="exportExcel1(event)">导出</button>
+                    <br/>
+                    <br/>
+                </caption>
+                <tr>
+                    <th><label><input type="checkbox" class="exportCol" data-field-name="userId" data-field-desc="用户id"> 用户id</label></th>
+                    <th><label><input type="checkbox" class="exportCol" data-field-name="userName" data-field-desc="用户名">用户名</label></th>
+                    <th><label><input type="checkbox" class="exportCol" data-field-name="age" data-field-desc="年龄">年龄</label></th>
+                    <th><label><input type="checkbox" class="exportCol" data-field-name="address"data-field-desc="地址">地址</label></th>
+                </tr>
+                <tr th:each="user,userStat:${userList}">
+                    <td th:text="${user.userId}"></td>
+                    <td th:text="${user.userName}"></td>
+                    <td th:text="${user.age}"></td>
+                    <td th:text="${user.address}"></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <br>
+    <hr/>
+    <br><br>
+    <div class="export">
+        <form id="form2">
+            <table border="1" cellspacing="0" cellpadding="0">
+                <caption>
+                    <span class="title">案例2：请先勾选需要导出的列 & 需要导出的行，然后点击</span>
+                    <button class="exportBtn" onclick="exportExcel2(event)">导出</button>
+                    <br/>
+                    <br/>
+                </caption>
+                <tr>
+                    <th>选择要导出的记录</th>
+                    <th><label><input type="checkbox" class="exportCol" data-field-name="userId" data-field-desc="用户id"> 用户id</label></th>
+                    <th><label><input type="checkbox" class="exportCol" data-field-name="address"data-field-desc="地址">地址</label></th>
+                    <th><label><input type="checkbox" class="exportCol" data-field-name="age" data-field-desc="年龄">年龄</label></th>
+                    <th><label><input type="checkbox" class="exportCol" data-field-name="userName" data-field-desc="用户名">用户名</label></th>
+                </tr>
+                <tr th:each="user,userStat:${userList}">
+                    <td><label><input type="checkbox" class="userId" th:data-user-id="${user.userId}"></label></td>
+                    <td th:text="${user.userId}"></td>
+                    <td th:text="${user.address}"></td>
+                    <td th:text="${user.age}"></td>
+                    <td th:text="${user.userName}"></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+
+</body>
+</html>
