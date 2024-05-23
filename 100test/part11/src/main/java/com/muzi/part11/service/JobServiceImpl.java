@@ -6,13 +6,14 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.itsoku.lesson011.comm.ServiceExceptionUtils;
-import com.itsoku.lesson011.dto.Job;
-import com.itsoku.lesson011.dto.JobCreateRequest;
-import com.itsoku.lesson011.dto.JobUpdateRequest;
-import com.itsoku.lesson011.enums.JobStatusEnums;
-import com.itsoku.lesson011.mapper.JobMapper;
-import com.itsoku.lesson011.po.JobPO;
+
+import com.muzi.part11.comm.ServiceExceptionUtils;
+import com.muzi.part11.dto.Job;
+import com.muzi.part11.dto.JobCreateRequest;
+import com.muzi.part11.dto.JobUpdateRequest;
+import com.muzi.part11.enums.JobStatusEnums;
+import com.muzi.part11.mapper.JobMapper;
+import com.muzi.part11.po.JobPO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.scheduling.support.CronExpression;
 import org.springframework.stereotype.Service;
@@ -21,12 +22,7 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * job对外暴露的接口
- * <b>description</b>： Java高并发、微服务、性能优化实战案例100讲，视频号：程序员路人，源码 & 文档 & 技术支持，请加个人微信号：itsoku <br>
- * <b>time</b>：2024/4/3 0:13 <br>
- * <b>author</b>：ready likun_557@163.com
- */
+
 @Service
 public class JobServiceImpl extends ServiceImpl<JobMapper, JobPO> implements JobService {
     @Resource

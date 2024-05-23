@@ -1,4 +1,4 @@
-package com.muzi.part11.comm;
+package com.muzi.comm;
 
 
 public class ResultUtils {

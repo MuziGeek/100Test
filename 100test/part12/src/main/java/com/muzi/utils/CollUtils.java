@@ -1,4 +1,4 @@
-package com.muzi.part11.utils;
+package com.muzi.utils;
 
 
 import org.apache.commons.collections4.CollectionUtils;

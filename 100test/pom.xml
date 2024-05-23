@@ -24,6 +24,7 @@
         <module>part8</module>
         <module>part9</module>
         <module>part11</module>
+        <module>part12</module>
     </modules>
     <dependencyManagement>
         <dependencies>
