@@ -13,7 +13,7 @@ public class CurrentLimitTest {
         //下面模拟200个人同时下单，运行，大家看结果
         RestTemplate restTemplate = new RestTemplate();
         Runnable requestPlaceOrder = () -> {
-            String result = restTemplate.getForObject("http://localhost:8080/placeOrder", String.class);
+            String result = restTemplate.getForObject("http://localhost:8080/counter", String.class);
             System.out.println(result);
             if ("下单成功".equals(result)) {
                 successNum.incrementAndGet();

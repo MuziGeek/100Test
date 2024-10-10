@@ -1,6 +1,9 @@
 package com.muzi.part5;
 
 import com.muzi.part5.Anno.FrequencyControl;
+import com.muzi.part5.Anno.RateLimiterSimpleWindow;
+import com.muzi.part5.counter.CounterRateLimit;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -47,6 +50,29 @@ public class TestController {
 //        } else {
 //            return "系统繁忙，请稍后重试";
 //        }
+    }
+    /**
+     * 固定窗口限流
+     */
+
+    @GetMapping("/placeOrder2")
+    @RateLimiterSimpleWindow(qps=100,timeout = 1)
+    public String placeOrder2() throws InterruptedException {
+
+        TimeUnit.SECONDS.sleep(2);
+        return "下单成功";
+
+    }
+
+    /**
+     * 一秒一次
+     *
+     * @return
+     */
+    @GetMapping("/counter")
+    @CounterRateLimit(maxRequest = 50, timeWindow = 2)
+    public String counter() {
+        return "下单成功";
     }
 
 }
