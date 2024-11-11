@@ -29,4 +29,5 @@ public class CurrentLimitTest {
         System.out.println("下单成功数：" + successNum.get());
         System.out.println("下单失败数：" + failNum.get());
     }
+
 }

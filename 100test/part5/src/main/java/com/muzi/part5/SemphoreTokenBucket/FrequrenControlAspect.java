@@ -1,6 +1,5 @@
-package com.muzi.part5.AOP;
+package com.muzi.part5.SemphoreTokenBucket;
 
-import com.muzi.part5.Anno.FrequencyControl;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -9,7 +8,6 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +20,7 @@ import java.util.concurrent.Semaphore;
 @Order(0)
 public class FrequrenControlAspect {
 
-    @Around("@annotation(com.muzi.part5.Anno.FrequencyControl)||@annotation(com.muzi.part5.Anno.FrequncyControContainer)")
+    @Around("@annotation(com.muzi.part5.SemphoreTokenBucket.FrequencyControl)||@annotation(com.muzi.part5.SemphoreTokenBucket.FrequncyControContainer)")
     public  Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         Method method =((MethodSignature)joinPoint.getSignature()).getMethod();
         FrequencyControl[] annotationsByType = method.getAnnotationsByType(FrequencyControl.class);

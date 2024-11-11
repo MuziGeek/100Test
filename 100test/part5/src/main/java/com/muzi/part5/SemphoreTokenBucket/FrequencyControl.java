@@ -1,20 +1,19 @@
-package com.muzi.part5.Anno;
+package com.muzi.part5.SemphoreTokenBucket;
 
 import java.lang.annotation.*;
 import java.util.concurrent.TimeUnit;
 
-/**
- * 固定窗口限流
- */
+@Repeatable(FrequncyControContainer.class)
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface RateLimiterSimpleWindow {
+public @interface FrequencyControl {
+
     /**
      * 限流
-     * qps
+     * 获取令牌数量 默认为1
      */
 
-    int qps() default 2;
+    int permits() default 1;
 
     /**
      * 超时时间
@@ -23,10 +22,10 @@ public @interface RateLimiterSimpleWindow {
 
     int timeout() default 1;
 
-
     /**
      * 时间单位 默认为秒
      */
 
     TimeUnit unit() default TimeUnit.SECONDS;
+
 }

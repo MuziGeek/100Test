@@ -1,4 +1,4 @@
-package com.muzi.part5.counter;
+package com.muzi.part5.Counter;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -28,7 +28,7 @@ public class CounterRateLimitAspect {
      * @return
      * @throws Throwable
      */
-    @Around("@annotation(com.muzi.part5.counter.CounterRateLimit)")
+    @Around("@annotation(com.muzi.part5.Counter.CounterRateLimit)")
     public Object rateLimit(ProceedingJoinPoint joinPoint) throws Throwable {
 
         // 获取注解信息

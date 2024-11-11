@@ -1,4 +1,4 @@
-package com.muzi.part5.counter;
+package com.muzi.part5.Counter;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

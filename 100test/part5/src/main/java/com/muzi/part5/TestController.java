@@ -1,13 +1,14 @@
 package com.muzi.part5;
 
-import com.muzi.part5.Anno.FrequencyControl;
-import com.muzi.part5.Anno.RateLimiterSimpleWindow;
-import com.muzi.part5.counter.CounterRateLimit;
+import com.muzi.part5.LeakyBucket.LeakyBucketRateLimit;
+import com.muzi.part5.SemphoreTokenBucket.FrequencyControl;
+import com.muzi.part5.Counter.CounterRateLimit;
+import com.muzi.part5.SlidingWindow.SlidingWindowRateLimit;
+import com.muzi.part5.TokenBucket.TokenBucketRateLimit;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
 @RestController
@@ -56,7 +57,6 @@ public class TestController {
      */
 
     @GetMapping("/placeOrder2")
-    @RateLimiterSimpleWindow(qps=100,timeout = 1)
     public String placeOrder2() throws InterruptedException {
 
         TimeUnit.SECONDS.sleep(2);
@@ -75,4 +75,26 @@ public class TestController {
         return "下单成功";
     }
 
+    @GetMapping("/slidingWindow")
+    @SlidingWindowRateLimit(maxRequest = 50, timeWindow = 2)
+    public String slidingWindow() {
+        return "下单成功";
+    }
+
+    /**
+     *
+     *
+     * @return
+     */
+    @GetMapping("/leakyBucket")
+    @LeakyBucketRateLimit(capacity = 50, leakRate = 2)
+    public String leakyBucket() {
+        return "下单成功";
+    }
+
+    @GetMapping("/tokenBucket")
+    @TokenBucketRateLimit(permitsPerSecond = 50)
+    public String tokenBucket() {
+        return "下单成功";
+    }
 }

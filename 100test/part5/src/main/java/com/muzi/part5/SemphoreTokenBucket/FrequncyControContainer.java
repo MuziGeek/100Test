@@ -1,4 +1,4 @@
-package com.muzi.part5.Anno;
+package com.muzi.part5.SemphoreTokenBucket;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
