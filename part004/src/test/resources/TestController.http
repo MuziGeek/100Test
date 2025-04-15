@@ -1,0 +1,11 @@
+### 商品超卖第1个方案
+GET http://localhost:8080/test1
+
+### 商品超卖第2个方案
+GET http://localhost:8080/test2
+
+### 商品超卖第3个方案
+GET http://localhost:8080/test3
+
+### 商品超卖第4个方案
+GET http://localhost:8080/test4

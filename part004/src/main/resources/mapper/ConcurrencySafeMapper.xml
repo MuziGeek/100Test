@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.muzi.part4.mapper.ConcurrencySafeMapper">
+
+    <!-- 使用乐观锁更新数据 -->
+    <update id="optimisticUpdate">
+        update t_concurrency_safe set version = version + 1 where safe_key = #{safeKey} and version = #{version}
+    </update>
+
+</mapper>

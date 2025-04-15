@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.muzi.mapper.RechargeMapper">
+
+    <!-- 更新充值记录状态为成功状态 -->
+    <update id="updateRechargeSuccess">
+        update t_recharge set status = 1 where id = #{rechargeId} and status = 0
+    </update>
+
+    <!-- 更新充值记录状态为成功状态 -->
+    <update id="updateRechargeSuccessOptimisticLock">
+        update t_recharge set version = version + 1, status = 1 where id = #{rechargeId} and version = #{expectVersion}
+    </update>
+
+</mapper>

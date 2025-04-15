@@ -1,0 +1,22 @@
+### 验证正常结果
+GET http://localhost:8080/hello
+Accept: application/json
+
+
+### 登录验证，用户名正确的情况
+GET http://localhost:8080/login?name=路人
+Accept: application/json
+
+
+### 登录验证，用户名错误的情况
+GET http://localhost:8080/login?name=张三
+Accept: application/json
+
+### 使用springboot参数校验功能，我们不输入密码，看看效果
+POST http://localhost:8080/userRegister
+Accept: application/json
+Content-Type: application/json
+
+{
+  "userName": "木子"
+}
