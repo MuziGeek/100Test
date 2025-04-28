@@ -51,13 +51,6 @@ public class ShardUploadTest {
             this.shardUploadPart(shardUploadId, partOrder);
         }*/
         //2 多线程上传分片
-        /*for (int i = 1; i <partNum ; i++) {
-            MyRunnable myRunnable = new MyRunnable();
-            myRunnable.setPartOrder(i);
-            myRunnable.setShardUploadId(shardUploadId);
-            Thread thread = new Thread(myRunnable);
-            thread.start();
-        }*/
         ExecutorService executorService = Executors.newFixedThreadPool(partNum);
         CountDownLatch countDownLatch = new CountDownLatch(partNum);
         for (int i = 1; i <=partNum ; i++) {
