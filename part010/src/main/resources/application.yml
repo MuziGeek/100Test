@@ -1,0 +1,20 @@
+# 服务器配置
+server:
+  port: 8010
+  
+spring:
+  application:
+    name: websocket-demo
+  # 静态资源配置
+  mvc:
+    static-path-pattern: /**
+  web:
+    resources:
+      static-locations: classpath:/static/
+
+# 日志配置
+logging:
+  level:
+    com:
+      muzi:
+        part010: debug 

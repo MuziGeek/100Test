@@ -1,0 +1,14 @@
+# 测试环境配置
+spring:
+  application:
+    name: websocket-demo
+  # 测试环境不需要数据库连接
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+
+# 日志配置
+logging:
+  level:
+    com:
+      muzi:
+        part010: debug 
